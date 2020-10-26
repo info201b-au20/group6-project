@@ -28,6 +28,10 @@ If we were to travel (after COVID pandemic) it could be useful to understand lis
 
 3) Are there specific neighborhoods that have more Airbnb listings or share common qualities?
 
+4) How is the price impacted by the type of listing, the neighborhood, and the number of bedrooms? Addititionally, what is the average price of a listing with a given number of bedrooms and bathrooms in a given area?
+
+5) How does being a superhost impact the listing? 
+
 ## Finding Data
 
 ### Boston Airbnb Dataset
