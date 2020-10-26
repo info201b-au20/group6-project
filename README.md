@@ -35,7 +35,8 @@ If we were to travel (after COVID pandemic) it could be useful to understand lis
 #### where did you download the data?
 From the website [insideairbnb.com](http://insideairbnb.com/get-the-data.html) which contains a collection of Airbnb datasets for various cities/locations.
 #### How was the data collected or generated? Make sure to explain who collected the data (not necessarily the same people that host the data), and who or what the data is about?
-The data is sourced from publicly available information from Airbnb.
+The data is sourced from publicly available information from Airbnb. We can assume the data then was collected by Airbnb themselves whenever new listings are created on their website.
+Each row in the dataset represents a listing each with a variety of features (columns) such as host acceptance rates, neighborhood, longitude/latitude, host listings, amenities, etc.
 #### How many observations (rows) are in your Data
 3340 rows
 #### How many features (columns) are in the data?
@@ -47,7 +48,7 @@ We can definitely answer the second question, and maybe the third. For the first
 #### where did you download the data?
 From the website [insideairbnb.com](http://insideairbnb.com/get-the-data.html) which contains a collection of Airbnb datasets for various cities/locations.
 #### How was the data collected or generated? Make sure to explain who collected the data (not necessarily the same people that host the data), and who or what the data is about?
-The data is sourced from publicly available information from Airbnb.
+The data is sourced from publicly available information from Airbnb. The contents of the dataset here is the same as the Boston dataset (same features), but with Boston listings.
 #### How many observations (rows) are in your Data
 6398 rows
 #### How many features (columns) are in the data?
@@ -59,7 +60,7 @@ The answer here is the same as the previous dataset, we can look into answer our
 #### where did you download the data?
 From the website [insideairbnb.com](http://insideairbnb.com/get-the-data.html) which contains a collection of Airbnb datasets for various cities/locations.
 #### How was the data collected or generated? Make sure to explain who collected the data (not necessarily the same people that host the data), and who or what the data is about?
-The data is sourced from publicly available information from Airbnb.
+The data is sourced from publicly available information from Airbnb. The contents of the dataset is the same as the previous two, but with London listings.
 #### How many observations (rows) are in your Data
 77592 rows
 #### How many features (columns) are in the data?
