@@ -6,10 +6,10 @@ singapore <- read.csv("data/singapore_listings.csv")
 
 boston$price <- as.numeric(gsub('[$,]', '', boston$price))
 chicago$price <- as.numeric(gsub('[$,]', '', chicago$price))
-london$price <- as.numeric(gsub('[$,]', '', london$price))
+singapore$price <- as.numeric(gsub('[$,]', '', singapore$price))
 
 
-# pass each dataset into the function to return an summary list
+# pass each dataset into the function to return a summary list
 info_summary <- function(dataset) {
   # number of listings
   # median price
@@ -58,3 +58,4 @@ info_summary <- function(dataset) {
   summary_dataset
 }
 
+# view table within the list view(info_summary(boston)$price_by_neighborhood)
