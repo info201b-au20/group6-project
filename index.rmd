@@ -45,12 +45,13 @@ The above chart reveals that the top neighborhood by a large margin, is Kallang.
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
 
-### Chart 3 section
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-<<<<<<< HEAD
+### Average Prices in Each City Based on Accommodation
+This chart is intended to show the difference between the average price rates based on the number of accommodations needed in three different cities, Boston, Chicago, and Singapore for Airbnbs. 
 
 ```{r, echo=FALSE}
 compare_all
 ```
+
+The chart above reveals that overall Chicago has the lowest average prices for the number of accommodations needed. Boston and Singapore have relatively similar rates until 8 people, and the price for rooms increase for Boston, while it decreases for Singapore. This shows that based on the number of people traveling together, different cities have better accommodation rates. 
 =======
->>>>>>> 558b8bce1f0841e615301ded8e7257a4f5434d4e
+
