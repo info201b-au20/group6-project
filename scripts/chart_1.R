@@ -9,7 +9,7 @@ type <- boston %>%
   summarize(num_type = n())
 
 # creates a pie chart of room types on Airbnb in Boston
-ggplot(data = type) +
+plot_type <- ggplot(data = type) +
   geom_bar(mapping = aes(x = "", y = num_type, fill = room_type), stat="identity") +
   coord_polar("y") +
   theme_void() +
