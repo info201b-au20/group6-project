@@ -1,5 +1,3 @@
-#This chart shows...
-
 library("ggplot2")
 library("dplyr")
 
@@ -16,15 +14,10 @@ compare_all <- ggplot() +
   geom_line(data = avg_chicago, aes(x = accommodates, y = avg_price, color = "Chicago")) +
   geom_line(data = avg_singapore, aes(x = accommodates, y = avg_price, color = "Singapore")) +
   scale_x_continuous(breaks = seq(0, 17, 1)) +
-  geom_point() +
-  #geom_point(mapping = aes(x = accommodates, y = avg_price)) +
-  #how to make it show points
-  #also how to lint???
   labs(title = "Average Price for Number of Accomodations in Different Cities",
        x = "Number of People",
        y = "Average Price",
        color = "Legend") +
-  scale_color_manual(values = colors) 
-  
+  scale_color_manual(values = colors)
 
 
