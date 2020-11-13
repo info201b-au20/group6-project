@@ -7,6 +7,10 @@ output: html_document
 source("scripts/chart_sgp_top_neighborhoods.R")
 ```
 
+```{r setup, include=FALSE}
+source("scripts/chart_3.R")
+```
+
 ## Overview
 The problem domain we are analyzing is publicly available information about different cities' Airbnb listings data. Currently, our repo uses three Airbnb listing datasets: Boston, Chicago, and Singapore. Each dataset includes a diverse array of information about individual listings, with features such as host response rate, review score, accommodations, locations, etc. Because each city's dataset contains the same features (and therefore mostly the same information), we may not end up analyzing all three dataset equally in this exploratory analysis.
 
@@ -38,3 +42,6 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 ### Chart 3 section
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
+```{r, echo=FALSE}
+compare_all
+```
