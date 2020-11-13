@@ -16,7 +16,7 @@ top_10 <- num_listings_per_neighborhood %>%
 
 
 #Render a horizontal bar chart of listings
-ggplot(top_10) +
+listings_plot <- ggplot(top_10) +
   geom_col(mapping = aes(x = neighborhood, y = num_listings)) +
   coord_flip() +
   
