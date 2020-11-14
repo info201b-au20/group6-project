@@ -31,33 +31,9 @@ It is important for Airbnb users to have some information when they are looking 
 From the dataset in Boston we could know that the price range is **from $25 to $3,999**, which is a large range for users to choose. Therefore, at table section, we mainly classify airbnb in Boston according to different factors (for example, by room type, owner's operating time and price), so that customers can make choices more quickly according to their preferences.
 
 ```{r}
-kable(accommodates_max, caption = 'accommodates_max')
+kable(lowest_neighourhood, caption = 'lowest_neighourhoodl')
 ```
-* By finding the Airbnb room with largest accommodates number in each scraped day, users can know the maximum number of people that the host can accommodate and plan their occupancy allocation.
-
-```{r}
-kable(host_response, caption = 'host_response')
-```
-* Each host's response rate and corresponding time reveals easiest host to communicate with and help check-in through the host response rate and response speed.
-
-```{r}
-kable(host_start, caption = 'host_start')
-```
-* We calculate the time when each operator first started hosting Airbnb because owners who have been operating airbnb longer are usually able to better understand the needs of different users.
-
-```{r}
-kable(price_high, caption = 'price_high')
-```
-```{r}
-kable(price_low, caption = 'price_low')
-```
-
-* By understanding the highest and lowest prices of the corresponding room of the host, users can estimate the price range of the host and make a reasonable choice.
-
-```{r}
-kable(room_type_arrange, caption = 'room_type_arrange')
-```
-* When knowing about the property type of each room, users can choose their favorite type and avoid the trouble caused by the room types.
+* By aggregating each neighbourhood's lowest price, user could have a picture of the price range in selected neigbourhood thus make better choice.
 
 
 

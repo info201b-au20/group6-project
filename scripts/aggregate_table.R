@@ -46,3 +46,11 @@ price_low <- boston %>%
 room_type_arrange <- boston %>%
   group_by(host_id, host_name, property_type) %>%
   summarise(room = unique(room_type))
+
+# find the lowest price in each neighbourhood
+# By aggregating each neighbourhood's lowest price, user could have a picture of the price range in selected neigbourhood.
+boston_repl <- boston %>% 
+  mutate(across(where(is.character), str_remove_all, pattern = fixed(" "))) 
+lowest_neighourhood <- boston_repl %>%
+  group_by(toupper(neighbourhood)) %>%
+  summarise(lowest = min(price))
