@@ -1,0 +1,61 @@
+---
+title: "Airbnb Exploratory Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+source("scripts/chart_sgp_top_neighborhoods.R")
+source("scripts/chart_1.R")
+source("scripts/chart_3.R")
+```
+
+
+## Overview
+The problem domain we are analyzing is publicly available information about different cities' Airbnb listings data. Currently, our repo uses three Airbnb listing datasets: Boston, Chicago, and Singapore. Each dataset includes a diverse array of information about individual listings, with features such as host response rate, review score, accommodations, locations, etc. Because each city's dataset contains the same features (and therefore mostly the same information), we may not end up analyzing all three dataset equally in this exploratory analysis.
+
+
+## Summary Information
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+
+## Airbnb in Boston analysis based on features (Table section)
+
+From the dataset in Boston we could know that the price range is **from $25 to $3,999**, which is a large range for users to choose. Therefore, at table section, we mainly classify airbnb in Boston according to different factors (for example, by room type, owner's operating time and price), so that customers can make choices more quickly according to their preferences.
+* By finding the Airbnb room with largest accommodates number in each scraped day, users can know the maximum number of people that the host can accommodate and plan their occupancy allocation.
+* Each host's response rate and corresponding time reveals easiest host to communicate with and help check-in through the host response rate and response speed.
+* We calculate the time when each operator first started hosting Airbnb because owners who have been operating airbnb longer are usually able to better understand the needs of different users.
+* By understanding the highest and lowest prices of the corresponding room of the host, users can estimate the price range of the host and make a reasonable choice.
+* When knowing about the property type of each room, users can choose their favorite type and avoid the trouble caused by the room types.
+
+
+### Top 10 Neighborhoods in Singapore by Listing
+This chart was intended to show the most common neighborhoods for Airbnb listings in Singapore by frequency:
+
+```{r, echo=FALSE}
+listings_plot
+```
+
+The above chart reveals that the top neighborhood by a large margin, is Kallang. Interestingly, the top 10 neighborhoods for Airbnb listings (as shown here) hardly match up with the top 10 most populous neighborhoods in Singapore. This could be an indication that the neighborhoods where many local Singaporeans actually live tend to be distinct from the neighborhoods that tourists (Such as Airbnb customers) stay in.
+
+
+### Room Types of Listings on Airbnb in Boston
+This pie chart is intended to show room types of all Airbnb listings in Boston: 
+
+```{r, echo=FALSE}
+plot_type
+```
+
+It reveals that over half of the listings are for entire home or apartment, while most of the rest are private rooms. There are little amounts of hotel rooms and shared rooms available. This can be helpful for people to decide how they want to display their listings(whether to rent out the entire home or separate rooms) and let them know how competitive their category is. 
+
+### Average Prices in Each City Based on Accommodation
+This chart is intended to show the difference between the average price rates based on the number of accommodations needed in three different cities, Boston, Chicago, and Singapore for Airbnbs. 
+
+```{r, echo=FALSE}
+compare_all
+```
+
+The chart above reveals that overall Chicago has the lowest average prices for the number of accommodations needed. Boston and Singapore have relatively similar rates until 8 people, and the price for rooms increase for Boston, while it decreases for Singapore. This shows that based on the number of people traveling together, different cities have better accommodation rates. 
+=======
+
