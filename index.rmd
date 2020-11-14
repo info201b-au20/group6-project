@@ -8,6 +8,8 @@ source("scripts/chart_sgp_top_neighborhoods.R")
 source("scripts/chart_1.R")
 source("scripts/summary_info.R")
 source("scripts/chart_3.R")
+source("scripts/aggregate_table.R")
+library("knitr")
 ```
 
 
@@ -23,13 +25,6 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## Airbnb in Boston analysis based on features (Table section)
 
-```{r, include=FALSE}
-source("aggregate_table.R")
-```
-```{r setup, include=FALSE}
-library("knitr")
-knitr::opts_knit$set(root.dir = './scripts')
-```
 
 From the dataset in Boston we could know that the price range is **from $25 to $3,999**, which is a large range for users to choose. Therefore, at table section, we mainly classify airbnb in Boston according to different factors (for example, by room type, owner's operating time and price), so that customers can make choices more quickly according to their preferences.
 

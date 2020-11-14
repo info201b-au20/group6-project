@@ -3,7 +3,7 @@ library(stringr)
 library(stringi)
 
 # read data of listing in Boston
-boston <- read.csv("~/Desktop/info201/group6-project/data/boston_listings.csv")
+boston <- read.csv("data/boston_listings.csv")
 
 # find the Airbnb room with largest accommodates number in each scraped day
 # Users can know the maximum number of people that
