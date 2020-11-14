@@ -28,9 +28,7 @@ info_summary <- function(dataset) {
   superhost_ratio <- dataset %>%
     filter(host_is_superhost == "t") %>%
     summarise(superhost_ratio = round(length(host_is_superhost)
-    / dataset$num_listings,
-    digits = 2
-    )) %>%
+    / nrow(dataset), digits = 2)) %>%
     pull(superhost_ratio)
   num_neighborhoods <- n_distinct(dataset$neighbourhood_cleansed)
   num_in_neighborhood <- dataset %>%
@@ -65,4 +63,9 @@ info_summary <- function(dataset) {
   summary_dataset
 }
 
-# view table within the list view(info_summary(boston)$price_by_neighborhood)
+
+# info_summary(boston)
+# info_summary(chicago)
+# info_summary(singapore)
+
+# view table within the list- view(info_summary(boston)$price_by_neighborhood)
