@@ -6,6 +6,7 @@ output: html_document
 ```{r setup, include=FALSE}
 source("scripts/chart_sgp_top_neighborhoods.R")
 source("scripts/chart_1.R")
+source("scripts/summary_info.R")
 source("scripts/chart_3.R")
 ```
 
