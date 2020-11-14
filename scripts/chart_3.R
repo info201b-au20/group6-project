@@ -1,7 +1,8 @@
 library("ggplot2")
 library("dplyr")
 
-#set working directory first
+#first run summary_info.R file
+#set working directory group6-project
 avg_boston <- info_summary(boston)$price_by_num_accomodates
 avg_chicago <- info_summary(chicago)$price_by_num_accomodates
 avg_singapore <- info_summary(singapore)$price_by_num_accomodates

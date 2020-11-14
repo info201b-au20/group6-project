@@ -6,7 +6,10 @@ output: html_document
 ```{r setup, include=FALSE}
 source("scripts/chart_sgp_top_neighborhoods.R")
 source("scripts/chart_1.R")
+source("scripts/summary_info.R")
 source("scripts/chart_3.R")
+source("scripts/aggregate_table.R")
+library("knitr")
 ```
 
 
@@ -19,17 +22,43 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
-It is important for Airbnb users to have some information when they are looking for a place to stay. Therefore, we gathered some important pieces of information that people can utilize as they choose which city to stay in. The first piece of information we looked at was the number of listings in each city. Chicago has the most listings on Airbnb with 6,397 (`$num_listings`). Next we looked into the median price of a listing in each city to get a better understanding of the prices. Surprisingly, Boston was the most expensive city with a median price of $130(`$median_price`). To get a further sense of where Airbnbs are located within each city we broke the cities down by neighborhood. From there, we were able to look at prices by neighborhood as well as the number of property types offered in each neighborhood(`$price_by_neighborhood` `$property_type`). We also wanted to determine which city had the best superhost ratio so that people could determine where they are most likely to have a great host during their visit (`$superhost_ratio`). We saw that Chicago had the best ratio of superhosts with 46% which was in stark contrast to Singapore with only 14% of their hosts being superhosts. These were just some of the things we found would be useful to someone deciding where to book their next Airbnb. 
+It is important for Airbnb users to have some information when they are looking for a place to stay. Therefore, we gathered some important pieces of information that people can utilize as they choose which city to stay in. The first piece of information we looked at was the number of listings in each city. Chicago has the most listings on Airbnb with 6,397 (`$num_listings`). Next we looked into the median price of a listing in each city to get a better understanding of the prices. Surprisingly, Boston was the most expensive city with a median price of $130(`$median_price`). To get a further sense of where Airbnbs are located within each city we broke the cities down by neighborhood. From there, we were able to look at prices by neighborhood as well as the number of property types offered in each neighborhood(`$price_by_neighborhood` `$property_type`). We also wanted to determine which city had the best superhost ratio so that people could determine where they are most likely to have a great host during their visit (`$superhost_ratio`). We saw that Chicago had the best ratio of superhosts with 46% which was in stark contrast to Singapore with only 14% of their hosts being superhosts. These were just some of the things we found would be useful to someone deciding where to book their next Airbnb.
 
 
 ## Airbnb in Boston analysis based on features (Table section)
 
+
 From the dataset in Boston we could know that the price range is **from $25 to $3,999**, which is a large range for users to choose. Therefore, at table section, we mainly classify airbnb in Boston according to different factors (for example, by room type, owner's operating time and price), so that customers can make choices more quickly according to their preferences.
+
+```{r}
+kable(accommodates_max, caption = 'accommodates_max')
+```
 * By finding the Airbnb room with largest accommodates number in each scraped day, users can know the maximum number of people that the host can accommodate and plan their occupancy allocation.
+
+```{r}
+kable(host_response, caption = 'host_response')
+```
 * Each host's response rate and corresponding time reveals easiest host to communicate with and help check-in through the host response rate and response speed.
+
+```{r}
+kable(host_start, caption = 'host_start')
+```
 * We calculate the time when each operator first started hosting Airbnb because owners who have been operating airbnb longer are usually able to better understand the needs of different users.
+
+```{r}
+kable(price_high, caption = 'price_high')
+```
+```{r}
+kable(price_low, caption = 'price_low')
+```
+
 * By understanding the highest and lowest prices of the corresponding room of the host, users can estimate the price range of the host and make a reasonable choice.
+
+```{r}
+kable(room_type_arrange, caption = 'room_type_arrange')
+```
 * When knowing about the property type of each room, users can choose their favorite type and avoid the trouble caused by the room types.
+
 
 
 ### Top 10 Neighborhoods in Singapore by Listing
@@ -58,5 +87,5 @@ This chart is intended to show the difference between the average price rates ba
 compare_all
 ```
 
-The chart above reveals that overall Chicago has the lowest average prices for the number of accommodations needed. Boston and Singapore have relatively similar rates until 8 people, and the price for rooms increase for Boston, while it decreases for Singapore. This shows that based on the number of people traveling together, different cities have better accommodation rates.
 =======
+The chart above reveals that overall Chicago has the lowest average prices for the number of accommodations needed. Boston and Singapore have relatively similar rates until 8 people, and the price for rooms increase for Boston, while it decreases for Singapore. This shows that based on the number of people traveling together, different cities have better accommodation rates.
