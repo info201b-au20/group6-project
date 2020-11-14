@@ -58,5 +58,5 @@ compare_all
 ```
 
 The chart above reveals that overall Chicago has the lowest average prices for the number of accommodations needed. Boston and Singapore have relatively similar rates until 8 people, and the price for rooms increase for Boston, while it decreases for Singapore. This shows that based on the number of people traveling together, different cities have better accommodation rates. 
-=======
+
 
