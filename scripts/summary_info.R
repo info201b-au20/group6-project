@@ -1,4 +1,6 @@
 library(tidyverse)
+library(lintr)
+library(styler)
 # set working directory as group6-project
 boston <- read.csv("data/boston_listings.csv")
 chicago <- read.csv("data/chicago_listings.csv")
@@ -37,7 +39,7 @@ info_summary <- function(dataset) {
     arrange(desc(n))
   price_by_num_accomodates <- dataset %>% 
     group_by(accommodates) %>% 
-    summarise(avg_price = mean(price))
+    summarise(avg_price = round(mean(price), digits = 2))
   price_by_neighborhood <- dataset %>% 
     group_by(neighbourhood_cleansed) %>% 
     summarise(min_price = min(price),
