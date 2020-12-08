@@ -65,9 +65,7 @@ server <- function(input, output, session) {
       addLegend(
         position = "bottomright",
         title = paste0(
-          "Airbnb Listings in Singapore (",
-          paste0(filter_count, " results)")
-        ),
+          "Airbnb Listings in Singapore (", filter_count, " results)"),
         pal = palette_fn,
         values = ~room_type,
         opacity = 1
