@@ -96,7 +96,7 @@ page_one <- tabPanel(
     ),
     mainPanel(
       tags$h2("Singapore Airbnb Locations"),
-      leafletOutput("my_map")
+      leafletOutput("my_map", height = 800)
     )
   )
 )
@@ -129,6 +129,7 @@ conclusion <- tabPanel(
 
 # Define a ui for the application
 ui <- navbarPage(
+  windowTitle = ("Airbnb - Data Exploration"),
   title = tags$strong("Airbnb Data Exploration"),
   intro,
   page_one,

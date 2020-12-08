@@ -52,7 +52,7 @@ server <- function(input, output, session) {
         "05aa38b3c8/{z}/{x}/{y}.png?access-token=eIlOZCXWfZIR2t5pqcGt6vcc25pb",
         "scLwwCKzFgtOjISymDP6p3nvlwwLl4mA0qeH"),
       ) %>%
-      setView(lng = 103.851959, lat = 1.3521, zoom = 10) %>%
+      setView(lng = 103.851959, lat = 1.3521, zoom = 11) %>%
       addCircles(
         lat = ~latitude,
         lng = ~longitude,
