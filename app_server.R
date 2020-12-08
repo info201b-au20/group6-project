@@ -30,7 +30,7 @@ server <- function(input, output, session) {
   # Replace superhost column with boolean values
   data_sing$host_is_superhost <- to_logical(data_sing$host_is_superhost)
 
-  output$my_map <- renderLeaflet({
+  output$m_sing <- renderLeaflet({
 
     # Dynamic user filtering
     plot_data <- data_sing %>%
@@ -44,7 +44,11 @@ server <- function(input, output, session) {
 
     # Return the count of filtered listings
     filter_count <- nrow(plot_data)
-
+    
+    # Construct header to be used in map pop-up
+    popup_header <- paste0("<center><h4><b>$", data_sing$price,
+                           "</b> / night</h4></center>")
+    
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
@@ -57,8 +61,10 @@ server <- function(input, output, session) {
         lat = ~latitude,
         lng = ~longitude,
         stroke = FALSE,
-        popup = ~ paste(name, listing_url),
-        color = ~ palette_fn(room_type),
+        popup = ~paste0(sep = "<br/>",
+                        popup_header,
+                        "<b><a href='", listing_url, "'>",name, "</a></b>"),
+        color = ~palette_fn(room_type),
         radius = 20,
         fillOpacity = 0.5
       ) %>%
