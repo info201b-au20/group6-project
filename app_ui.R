@@ -59,7 +59,7 @@ sorted <- data_sing %>%
 
 select_neigbourhood <- selectInput(
   inputId = "select",
-  label = "Select  neigbourhood",
+  label = "Filter by neigbourhood",
   choices = c("All", sorted$neighbourhood_cleansed)
 )
 
@@ -95,8 +95,11 @@ page_one <- tabPanel(
       checkbox_superhost
     ),
     mainPanel(
-      tags$h2("Singapore Airbnb Locations"),
-      leafletOutput("my_map", height = 800)
+      HTML("<center><h3>Singapore Airbnb Listings (26 October, 2020)
+           </h3></center>"),
+      tags$style(type = "text/css",
+                 "#m_sing {height: calc(100vh - 150px) !important;}"),
+      leafletOutput("m_sing")
     )
   )
 )
