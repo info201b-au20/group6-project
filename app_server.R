@@ -46,15 +46,15 @@ server <- function(input, output, session) {
 
     # Return the count of filtered listings
     filter_count <- nrow(plot_data)
-# <<<<<<< HEAD
+<<<<<<< HEAD
 
     # Construct header to be used in map pop-up
     popup_header <- paste0("<center><h4><b>$", data_sing$price,
                            "</b> / night</h4></center>")
 
-# =======
+=======
 
-# >>>>>>> a2278ff7316d3c06622787fa98d6da2daca9b519
+>>>>>>> a2278ff7316d3c06622787fa98d6da2daca9b519
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
