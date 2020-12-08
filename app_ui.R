@@ -39,7 +39,7 @@ slider_price <- sliderInput(
 # Allow user to set new max price range
 change_max_range <- textInput(
   inputId = "textbox",
-  label = tags$h6("Set max slider range")
+  label = tags$h6("Set new max for slider range")
 )
 
 slider_accomodates <- sliderInput(
@@ -72,24 +72,24 @@ checkbox_superhost <- checkboxInput(
 # Define a layout for interactive page
 page_one <- tabPanel(
   title = tags$header("Interactive Map"),
-  tags$h2("Singapore Airbnb Locations"),
-  leafletOutput("my_map"),
-  hr(),
-  h3("Filter Options"),
-  br(),
-  fluidRow(
-    column(4,
-           slider_price,
-           change_max_range,
-           actionButton("button", "Change")
-           ),
-    column(4,
-           slider_accomodates
-           ),
-    column(4,
-           select_neigbourhood,
-           br(),
-           checkbox_superhost)
+  sidebarLayout(
+    sidebarPanel(
+      tags$h3("Filter listing options"),
+      tags$hr(),
+      slider_price,
+      change_max_range,
+      actionButton("button", "change"),
+      tags$hr(),
+      slider_accomodates,
+      tags$hr(),
+      select_neigbourhood,
+      tags$hr(),
+      checkbox_superhost
+    ),
+    mainPanel(
+      tags$h2("Singapore Airbnb Locations"),
+      leafletOutput("my_map")
+    )
   )
 )
 

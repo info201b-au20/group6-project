@@ -48,13 +48,15 @@ server <- function(input, output, session) {
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
-        urlTemplate = "https://tile.jawg.io/ba3f805c-04fb-4fa7-99ef-b905aa38b3c8/{z}/{x}/{y}.png?access-token=eIlOZCXWfZIR2t5pqcGt6vcc25pbscLwwCKzFgtOjISymDP6p3nvlwwLl4mA0qeH",
+        urlTemplate = paste0("https://tile.jawg.io/ba3f805c-04fb-4fa7-99ef-b9",
+        "05aa38b3c8/{z}/{x}/{y}.png?access-token=eIlOZCXWfZIR2t5pqcGt6vcc25pb",
+        "scLwwCKzFgtOjISymDP6p3nvlwwLl4mA0qeH"),
       ) %>%
       setView(lng = 103.851959, lat = 1.290270, zoom = 10.5) %>%
       addCircles(
         lat = ~latitude,
         lng = ~longitude,
-        stroke = F,
+        stroke = FALSE,
         popup = ~ paste(name, listing_url),
         color = ~ palette_fn(room_type),
         radius = 20,
@@ -78,4 +80,7 @@ server <- function(input, output, session) {
 
 
   ##### Interactive Page Three ################################################
+  
+  
+  
 }
