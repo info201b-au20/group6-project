@@ -44,7 +44,7 @@ page_one <- tabPanel(
 
 # Define a ui for the application
 ui <- navbarPage(
-  title = tags$h1("Airbnb Data Exploration"),
+  title = "Airbnb Data Exploration",
   intro,
   page_one
 )
