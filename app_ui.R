@@ -39,12 +39,12 @@ slider_price <- sliderInput(
 # Allow user to set new max price range
 change_max_range <- textInput(
   inputId = "textbox",
-  label = tags$h6("Set new max for slider range")
+  label = tags$h6("Set max price for slider")
 )
 
 slider_accomodates <- sliderInput(
   inputId = "accom_slider",
-  label = "Guest capacity (at least as high)",
+  label = "Guest capacity (equal to or higher)",
   min = min(data_sing$accommodates),
   max = max(data_sing$accommodates),
   step = 1,
@@ -77,8 +77,16 @@ page_one <- tabPanel(
       tags$h3("Filter listing options"),
       tags$hr(),
       slider_price,
-      change_max_range,
-      actionButton("button", "change"),
+      fluidRow(
+        column(7,
+               change_max_range
+        ),
+        column(5,
+               br(),
+               br(),
+               actionButton("button", "change")
+        ),
+      ),
       tags$hr(),
       slider_accomodates,
       tags$hr(),
