@@ -10,7 +10,7 @@ data_sing <- read.csv("data/singapore_listings.csv")
 #### Introduction #############################################################
 
 intro <- tabPanel(
-  title = tags$h4("Introduction")
+  title = tags$header("Introduction")
 )
 
 
@@ -22,17 +22,17 @@ data_sing$price <- as.numeric(gsub("[$,]", "", data_sing$price))
 
 # Set default max slider range for better control (as opposed to the
 # max price from the dataset due to heavy left skew distribution)
-range_min <- min(data_sing$price)
-range_max <- 500
+min_price <- min(data_sing$price)
+max_price <- 500
 
 slider_price <- sliderInput(
   inputId = "price_slider",
   label = "Listing Price ($SGD per night)",
-  min = range_min,
-  max = range_max,
+  min = min_price,
+  max = max_price,
   sep = ",",
   pre = "$",
-  value = c(range_min, range_max),
+  value = c(min_price, max_price),
   dragRange = TRUE
 )
 
@@ -69,9 +69,9 @@ checkbox_superhost <- checkboxInput(
 )
 
 
-# define a layout for first interactive page
+# Define a layout for interactive page
 page_one <- tabPanel(
-  title = tags$h4("Interactive Map"),
+  title = tags$header("Interactive Map"),
   tags$h2("Singapore Airbnb Locations"),
   leafletOutput("my_map"),
   hr(),
@@ -84,7 +84,7 @@ page_one <- tabPanel(
            actionButton("button", "Change")
            ),
     column(4,
-           slider_accomodates,
+           slider_accomodates
            ),
     column(4,
            select_neigbourhood,
@@ -94,17 +94,27 @@ page_one <- tabPanel(
 )
 
 
-
 ##### Interactive Page Two ####################################################
 
+# Define a layout for interactive page
+page_two <- tabPanel(
+  title = tags$header("Page 2")
+)
 
 
 ##### Interactive Page Three ##################################################
 
+# Define a layout for interactive page
+page_three <- tabPanel(
+  title = tags$header("Page 3")
+)
 
 
-##### Summary #################################################################
+##### Conclusion ##############################################################
 
+conclusion <- tabPanel(
+  title = tags$header("Conclusion")
+)
 
 
 #------------------------------------------------------------------------------
@@ -113,5 +123,8 @@ page_one <- tabPanel(
 ui <- navbarPage(
   title = tags$strong("Airbnb Data Exploration"),
   intro,
-  page_one
+  page_one,
+  page_two,
+  page_three,
+  conclusion
 )
