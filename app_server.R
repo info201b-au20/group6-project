@@ -4,6 +4,8 @@ library("tidyverse")
 library("leaflet")
 library("RColorBrewer")
 library("batman")
+library("ggplot2")
+library("plotly")
 
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
@@ -44,11 +46,11 @@ server <- function(input, output, session) {
 
     # Return the count of filtered listings
     filter_count <- nrow(plot_data)
-    
+
     # Construct header to be used in map pop-up
     popup_header <- paste0("<center><h4><b>$", data_sing$price,
                            "</b> / night</h4></center>")
-    
+
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
@@ -81,6 +83,42 @@ server <- function(input, output, session) {
 
   ##### Interactive Page Two ##################################################
 
+  # changes the column of price from characters to numbers
+  data_chic$price <- as.numeric(gsub("[$,]", "", data_chic$price))
+
+  output$chart_chic <- renderPlotly({
+    title <- paste0(input$room_type, " listings in ",
+                    input$neighbourhood, ", Chicago")
+
+    # prepares data for the chart
+    chart_data <- data_chic %>%
+      filter(grepl(input$room_type, room_type)) %>%
+      filter(grepl(input$neighbourhood, neighbourhood_cleansed))
+
+    scatter_plot <- ggplot(chart_data) +
+      geom_point(
+        mapping = aes_string(
+          x = "accommodates",
+          y = "price"
+        )
+      ) +
+      scale_x_continuous(
+        breaks = seq(input$accommodation_range[1],
+                     input$accommodation_range[2],
+                     1),
+        limits = c(input$accommodation_range[1],
+                   input$accommodation_range[2])
+      ) +
+      scale_y_continuous(
+        limits = c(input$price_range[1], input$price_range[2])
+      ) +
+      labs(x = "Number of People Accommodating",
+           y = "Price ($USD per night)",
+           title = title
+      )
+
+    ggplotly(scatter_plot)
+  })
 
 
   ##### Interactive Page Three ################################################

@@ -2,6 +2,7 @@
 library("shiny")
 library("tidyverse")
 library("leaflet")
+library("plotly")
 
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
@@ -107,6 +108,8 @@ page_one <- tabPanel(
 
 ##### Interactive Page Two ####################################################
 
+data_chic$price <- as.numeric(gsub("[$,]", "", data_chic$price))
+
 # pulls a table of room types for radio button
 room_type_list <- data_chic %>%
   group_by(room_type) %>%
@@ -134,28 +137,39 @@ select_neighbourhood <- selectInput(
   selected = 1
 )
 
-# slider range for number of guests accomodating
-slider_range_accomod <- sliderInput(
-  inputId = "slider_accomodation",
-  label = "Accomodations",
-  min = min(data_chic$accommodates),
+# slider range for number of guests accommodating
+slider_range_accommod <- sliderInput(
+  inputId = "accommodation_range",
+  label = "Number of People Accommodating",
+  min = 1,
   max = max(data_chic$accommodates),
-  value = c(1,4),
-  step = 1
+  value = c(1,8),
+  step = 1,
+  width = "80%"
 )
 
+# slider range for price on chart
+slider_range_price <- sliderInput(
+  inputId = "price_range",
+  label = "Price Range",
+  min = min(data_chic$price),
+  max = max(data_chic$price),
+  value = c(0, 500),
+  width = "80%"
+)
 
 # Define a layout for interactive page
 page_two <- tabPanel(
-  title = tags$header("Page 2"),
+  title = tags$header("Scatter Plot"),
   sidebarLayout(
     sidebarPanel(
       select_neighbourhood,
-      radio_room_type,
-      slider_range_accomod
+      radio_room_type
     ),
     mainPanel(
-
+      plotlyOutput("chart_chic"),
+      slider_range_accommod,
+      slider_range_price
     )
   )
 )
