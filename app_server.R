@@ -7,7 +7,7 @@ library("batman")
 
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
-
+data_chic <- read.csv("data/chicago_listings.csv")
 
 # Define a server for the application
 server <- function(input, output, session) {
