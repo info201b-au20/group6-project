@@ -104,29 +104,30 @@ page_one <- tabPanel(
 
 ##### Interactive Page Two ####################################################
 
-# pulls a list of room types for radio button
+# pulls a table of room types for radio button
 room_type_list <- data_chic %>%
-  summarize(list = unique(room_type)) %>%
-  pull(list)
+  group_by(room_type) %>%
+  summarize(num_listings = n()) %>%
+  arrange(desc(num_listings))
 
-# pulls a list of neighbourhood in chicago for select box
+# pulls a table of neighbourhood in chicago for select box
 neighbourhood_list <- data_chic %>%
-  summarize(list = unique(neighbourhood_cleansed)) %>%
-  pull(list)
+  group_by(neighbourhood_cleansed) %>%
+  summarize(num_listings = n()) %>%
+  arrange(desc(num_listings))
 
 # radio button input for room type
 radio_room_type <- radioButtons(
   inputId = "room_type",
   label = "Room Type",
-  choices = room_type_list,
-  selected = 1
+  choices = room_type_list$room_type
 )
 
 # select box input for neighbourhood
 select_neighbourhood <- selectInput(
   inputId = "neighbourhood",
   label = "Neighbourhood",
-  choices = neighbourhood_list,
+  choices = neighbourhood_list$neighbourhood_cleansed,
   selected = 1
 )
 
@@ -136,7 +137,9 @@ slider_range_accomod <- sliderInput(
   label = "Accomodations",
   min = min(data_chic$accommodates),
   max = max(data_chic$accommodates),
-  value = c(1,4))
+  value = c(1,4),
+  step = 1
+)
 
 
 # Define a layout for interactive page
