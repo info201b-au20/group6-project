@@ -47,7 +47,9 @@ server <- function(input, output, session) {
 
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
-      addProviderTiles("CartoDB.Positron") %>%
+      addTiles(
+        urlTemplate = "https://tile.jawg.io/ba3f805c-04fb-4fa7-99ef-b905aa38b3c8/{z}/{x}/{y}.png?access-token=eIlOZCXWfZIR2t5pqcGt6vcc25pbscLwwCKzFgtOjISymDP6p3nvlwwLl4mA0qeH",
+      ) %>%
       setView(lng = 103.851959, lat = 1.290270, zoom = 10.5) %>%
       addCircles(
         lat = ~latitude,
