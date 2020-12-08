@@ -5,7 +5,7 @@ library("leaflet")
 
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
-
+data_chic <- read.csv("data/chicago_listings.csv")
 
 #### Introduction #############################################################
 
