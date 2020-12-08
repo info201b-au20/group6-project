@@ -163,11 +163,16 @@ page_two <- tabPanel(
   title = tags$header("Scatter Plot"),
   sidebarLayout(
     sidebarPanel(
+      tags$h3("Filter listing options"),
+      tags$hr(),
       select_neighbourhood,
+      tags$hr(),
       radio_room_type
     ),
     mainPanel(
       plotlyOutput("chart_chic"),
+      tags$h4("Adjust Chart Axis Range"),
+      tags$hr(),
       slider_range_accommod,
       slider_range_price
     )

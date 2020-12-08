@@ -46,15 +46,15 @@ server <- function(input, output, session) {
 
     # Return the count of filtered listings
     filter_count <- nrow(plot_data)
-<<<<<<< HEAD
+# <<<<<<< HEAD
 
     # Construct header to be used in map pop-up
     popup_header <- paste0("<center><h4><b>$", data_sing$price,
                            "</b> / night</h4></center>")
 
-=======
-    
->>>>>>> a2278ff7316d3c06622787fa98d6da2daca9b519
+# =======
+
+# >>>>>>> a2278ff7316d3c06622787fa98d6da2daca9b519
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
@@ -104,7 +104,8 @@ server <- function(input, output, session) {
       geom_point(
         mapping = aes_string(
           x = "accommodates",
-          y = "price"
+          y = "price",
+          color = "bedrooms"
         )
       ) +
       scale_x_continuous(
@@ -117,6 +118,7 @@ server <- function(input, output, session) {
       scale_y_continuous(
         limits = c(input$price_range[1], input$price_range[2])
       ) +
+      scale_color_gradient2(low="blue", mid="white", high="red")
       labs(x = "Number of People Accommodating",
            y = "Price ($USD per night)",
            title = title
