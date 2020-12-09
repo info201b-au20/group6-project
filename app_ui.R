@@ -4,7 +4,7 @@ library("tidyverse")
 library("leaflet")
 library("plotly")
 
-# Read data (set wdir to root)
+# Read data (setwd to root first)
 data_sing <- read.csv("data/singapore_listings.csv")
 data_chic <- read.csv("data/chicago_listings.csv")
 
@@ -75,7 +75,7 @@ page_one <- tabPanel(
   title = tags$header("Interactive Map"),
   sidebarLayout(
     sidebarPanel(
-      tags$h3("Filter listing options"),
+      tags$h3("Map filter options"),
       tags$hr(),
       slider_price,
       fluidRow(

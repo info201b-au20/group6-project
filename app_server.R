@@ -44,8 +44,43 @@ server <- function(input, output, session) {
       filter(if (input$select == "All") id == id
              else neighbourhood_cleansed == input$select)
 
-    # Return the count of filtered listings
+    # Get the count of filtered listings
     filter_count <- nrow(plot_data)
+    
+    # Get map pop-up content for listing rating
+    popup_rating <- ifelse(is.numeric(plot_data$review_scores_rating),
+                           paste0("<b style='color:#FF5A5F;'>&#9733; ",
+                                plot_data$review_scores_rating * 0.05,
+                                "</b> (",
+                                plot_data$number_of_reviews, ")"),
+                           "No Reviews")
+    
+    # Get map pop-up content for host status
+    popup_superhost <- ifelse(plot_data$host_is_superhost == T, 
+                              paste0(" · <b style='color:#FF5A5F;'>
+                                     &#127894;</b> Superhost"),
+                              "")
+    
+    # Get map pop-up content for guest capacity
+    popup_guests <- ifelse(plot_data$accommodates > 1, 
+                         paste0(plot_data$accommodates, " guests"), 
+                         paste0(plot_data$accommodates, " guest")
+                         )
+    
+    # Compile all content for map pop-up
+    popup_content <- paste0(sep = "<br/>",
+           paste0("<h5><span style='color:#767676;'>",
+                  popup_rating, popup_superhost,
+                  " · <u>", plot_data$neighbourhood_cleansed, 
+                  ", Singapore</u></span></h5><hr>"),
+           paste0("<center><h4><b>$", plot_data$price,
+                  "</b> / night</h4></center>"),
+           paste0("<center><h6>", popup_guests, "</h6></center>"),
+           paste0("<center><h5><b><a href=", plot_data$listing_url,
+                  ">", plot_data$name, "</a></b></h5></center>"),
+           paste0("<center><img src=", plot_data$picture_url,
+                  " width=300 height=180></center>")
+    )
 
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
@@ -59,14 +94,7 @@ server <- function(input, output, session) {
         lat = ~latitude,
         lng = ~longitude,
         stroke = FALSE,
-        popup = ~paste0(sep = "<br/>",
-                        paste0("<center><h4><b>$", price,
-                               "</b> / night</h4></center>"),
-                        paste0("<center><h5><b><a href=", listing_url,
-                               ">", name, "</a></b></h5></center>"),
-                        paste0("<center><img src=", picture_url,
-                               " width=300 height=180></center>")
-                        ),
+        popup = ~popup_content,
         color = ~palette_fn(room_type),
         radius = 20,
         fillOpacity = 0.5
