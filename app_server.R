@@ -47,7 +47,6 @@ server <- function(input, output, session) {
     # Return the count of filtered listings
     filter_count <- nrow(plot_data)
 
-
     # Create Leaflet map of user-filtered Singapore listings
     leaflet(data = plot_data) %>%
       addTiles(
