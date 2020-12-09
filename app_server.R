@@ -62,7 +62,11 @@ server <- function(input, output, session) {
         popup = ~paste0(sep = "<br/>",
                         paste0("<center><h4><b>$", price,
                                "</b> / night</h4></center>"),
-                        "<b><a href='", listing_url, "'>",name, "</a></b>"),
+                        paste0("<center><h5><b><a href=", listing_url,
+                               ">", name, "</a></b></h5></center>"),
+                        paste0("<center><img src=", picture_url,
+                               " width=300 height=180></center>")
+                        ),
         color = ~palette_fn(room_type),
         radius = 20,
         fillOpacity = 0.5
