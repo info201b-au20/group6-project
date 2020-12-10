@@ -307,9 +307,52 @@ page_three <- tabPanel(
 ##### Conclusion ##############################################################
 
 conclusion <- tabPanel(
-  title = tags$header("Conclusion")
+  title = tags$header("Conclusion"),
+  mainPanel(
+    h1("Summary Takeaways"),
+    # takeaways for Singapore's page
+    h3("Singapore Takeaways"),
+    p("The first homestay map based on 2020 Singapore's Airbnb data provided an
+      interactive page for users to select their preferred accommodation options
+      based on their needs. In the map we found that the majority of Airbnb
+      listings are located in southern Singapore and most offer entire home or
+      apartment and private room. Most hosts could accept a
+      maximum customer capacity of less than 5 people, and with the continuous
+      growth of customer capacity, there are fewer and fewer listings
+      that can meet user needs."),
+    # takeaways for Chicago's page
+    h3("Chicago Takeaways"),
+    p("Chicago's scatter plot shows the relationship between Airbnb occupancy
+      and price. By selecting different community and room types, users can
+      intuitively understand the price distribution of a room. Majority of Chicago
+      listings are on West Town, Near North Side and Lake View neighbourhoods,
+      and among them Lake View has the highest unit price ($9999). By comparing
+      Airbnb housing price data, both consumers and hosts can learn that the
+      overall average price range in Chicago is between $40 and $2000,
+      which can help users compare and find their optimal prices and help hosts
+      understand about market price trends."),
+    # takeaways for Boston's page
+    h3("Boston Takeaways"),
+    p("In the Airbnb Listing distribution map in Boston, we can know that the
+      the most common housing types in downtown area is entire house and apartment;
+      whereas in other areas, hosts offer more private rooms. At the same time, we
+      could know that the Boston housing price distribution is around $50-$450."),
+    # conclusion part
+    h3("More..."),
+    p("This project provides an interactive page for users (both housing hosts
+      and consumers) to analyze and compare housing data in a given area in order
+      to understand the market price distribution and trend of housing sources,
+      so as to make their reasonable choices. However, under current pandemic,
+      we should consciously maintain a safe distance between others, abide by
+      and actively cooperate with the regional epidemic prevention policy, and
+      strive to return to normal life as soon as possible. During the vacation
+      trip, don't forget to..."),
+    img(src = "https://thumbs.dreamstime.com/b/coronavirus-disease-public
+        -awareness-woman-man-wearing-protective-surgical-masks-holding-stay-safe
+        -healthy-signboards-vector-177404219.jpg",
+        height = "50%", width = "50%", align = "right"),
+  )
 )
-
 
 #------------------------------------------------------------------------------
 
