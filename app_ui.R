@@ -56,13 +56,17 @@ change_max_range <- textInput(
   label = tags$h6("Set max price for slider")
 )
 
+min_guests <- min(data_sing$accommodates)
+max_guests <- max(data_sing$accommodates)
+
 slider_accomodates <- sliderInput(
   inputId = "accom_slider",
-  label = "Guest capacity (equal to or higher)",
-  min = min(data_sing$accommodates),
-  max = max(data_sing$accommodates),
+  label = "Maximum guest capacity",
+  min = min_guests,
+  max = max_guests,
   step = 1,
-  value = 1
+  value = c(min_guests, max_guests),
+  dragRange = TRUE
 )
 
 # Sort neigbhourhoods in order of num listings
