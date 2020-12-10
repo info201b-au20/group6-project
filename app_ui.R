@@ -4,7 +4,7 @@ library("tidyverse")
 library("leaflet")
 library("plotly")
 
-# Read data (set wdir to root)
+# Read data (setwd to root first)
 data_sing <- read.csv("data/singapore_listings.csv")
 data_chic <- read.csv("data/chicago_listings.csv")
 data_bos <- read.csv("data/boston_listings.csv")
@@ -12,7 +12,20 @@ data_bos <- read.csv("data/boston_listings.csv")
 #### Introduction #############################################################
 
 intro <- tabPanel(
-  title = tags$header("Introduction")
+  title = tags$header("Introduction"),
+  mainPanel(
+    h1("Statistical Data on Airbnb Listings in Different Cities"),
+    img(src = "https://digital.hbs.edu/platform-digit/wp-content/uploads/sites/2/2020/04/unnamed-1-512x200.png"),
+    h2("Overview"),
+    p("HIIII"),
+    #state where we got the data from
+    #our problem domain at looking at how Airbnb works for its consumers and their needs to find 
+    #loging in diff cities
+    #hyperlink the website of the data 
+    #
+    h2("Questions To Be Answered"),
+    p("????")
+  )
 )
 
 
@@ -44,13 +57,17 @@ change_max_range <- textInput(
   label = tags$h6("Set max price for slider")
 )
 
+min_guests <- min(data_sing$accommodates)
+max_guests <- max(data_sing$accommodates)
+
 slider_accomodates <- sliderInput(
   inputId = "accom_slider",
-  label = "Guest capacity (equal to or higher)",
-  min = min(data_sing$accommodates),
-  max = max(data_sing$accommodates),
+  label = "Maximum guest capacity",
+  min = min_guests,
+  max = max_guests,
   step = 1,
-  value = 1
+  value = c(min_guests, max_guests),
+  dragRange = TRUE
 )
 
 # Sort neigbhourhoods in order of num listings
@@ -76,7 +93,7 @@ page_one <- tabPanel(
   title = tags$header("Interactive Map"),
   sidebarLayout(
     sidebarPanel(
-      tags$h3("Filter listing options"),
+      tags$h3("Map filter options"),
       tags$hr(),
       slider_price,
       fluidRow(
