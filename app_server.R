@@ -10,6 +10,7 @@ library("plotly")
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
 data_chic <- read.csv("data/chicago_listings.csv")
+data_bos <- read.csv("data/boston_listings.csv")
 
 # Define a server for the application
 server <- function(input, output, session) {
@@ -121,7 +122,50 @@ server <- function(input, output, session) {
 
 
   ##### Interactive Page Three ################################################
-
-
+  
+  # cleanse data
+  data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
+  data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
+  data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
+  
+  #color palette
+  palette_fn <- colorFactor(palette = "Set1", domain = data_bos$room_type)
+ 
+  output$bos_map <- renderLeaflet({  
+    # UI map filtering
+    map_filters <- data_bos %>%
+      filter(price >= input$price[1] & price <= input$price[2]) %>%
+      filter(accommodates >= input$accommodation_size) %>% 
+      filter(ifelse(input$superhost_checkbox == TRUE, 
+                    host_is_superhost == TRUE, id == id)) %>%
+      filter(ifelse(input$instant_book_checkbox == TRUE, 
+                    instant_bookable == TRUE, id == id)) %>%
+      filter(ifelse(neighbourhood_cleansed == input$neighbourhood, 
+                    id == neighbourhood_cleansed, id == id)) %>% 
+      filter(review_scores_rating >= input$review_rating) 
+  
+    # interactive map
+    leaflet(data = map_filters) %>% 
+      addProviderTiles("CartoDB.Positron") %>%
+      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>% 
+      addCircles(
+        lat = ~latitude,   
+        lng = ~longitude, 
+        label = ~paste("$", price, sep = ""),
+        color = ~palette_fn(room_type),
+        radius = 60,     
+        stroke = FALSE,
+        fillOpacity = .4,
+        popup = ~paste0("<b><a href='", listing_url, "'>",name, "</a></b>", 
+                        "<br/>", description)
+      ) %>% 
+    addLegend(
+      position = "bottomright",
+      title = "Listing Type",
+      pal = palette_fn, 
+      values = ~room_type, 
+      opacity = 1
+    )
+  })
 
 }
