@@ -7,6 +7,7 @@ library("plotly")
 # Read data (setwd to root first)
 data_sing <- read.csv("data/singapore_listings.csv")
 data_chic <- read.csv("data/chicago_listings.csv")
+data_bos <- read.csv("data/boston_listings.csv")
 
 #### Introduction #############################################################
 
@@ -208,11 +209,92 @@ page_two <- tabPanel(
 
 ##### Interactive Page Three ##################################################
 
-# Define a layout for interactive page
-page_three <- tabPanel(
-  title = tags$header("Page 3")
+data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
+data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
+data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
+
+
+# slider for price range
+price_slider <- sliderInput(
+  inputId = "price",
+  label = "Listing Price",
+  min = 0,
+  max = 500,
+  sep = ",",
+  pre = "$",
+  value = c(0, 500),
+  dragRange = TRUE
 )
 
+# slider for max accommodation
+accommodation_size <- textInput(
+  inputId = "accommodation_size",
+  label = tags$h6("Accommodates"),
+  value = 1
+)
+
+# slider for neighborhood filter
+sort_neighbourhood <- data_bos %>% 
+  group_by(neighbourhood_cleansed) %>% 
+  summarise(num_listings = n()) %>% 
+  arrange(desc(num_listings))
+  
+  
+choose_neighbourhood <- selectInput(
+  inputId = "neighbourhood",
+  label = "Neigborhood",
+  choices = c("All", sort_neighbourhood$neighbourhood_cleansed)
+)
+
+# slider for review ratings score
+review_rating <- sliderInput(
+  inputId = "review_rating",
+  label = "Minimum Review Ratings Score",
+  min = 50,
+  max = 100,
+  sep = ",",
+  value = 50,
+  dragRange = TRUE
+)
+
+# slider for superhost filter
+superhost_checkbox <- checkboxInput(
+  inputId = "superhost_checkbox",
+  label = tags$strong("Superhost Listings Only")
+)
+
+#slider for instantly bookable filter
+instantly_bookable <- checkboxInput(
+  inputId = "instant_book_checkbox",
+  label = tags$strong("Instantly Bookable")
+)
+
+# Define a layout for interactive page
+page_three <- tabPanel(
+  title = tags$header("Boston Listings"),
+  sidebarLayout(
+    sidebarPanel(
+      tags$h3("Filter Listings"),
+      tags$hr(),
+      price_slider,
+      tags$hr(),
+      accommodation_size,
+      tags$hr(),
+      review_rating,
+      tags$hr(),
+      choose_neighbourhood,
+      tags$hr(),
+      superhost_checkbox,
+      tags$hr(),
+      instantly_bookable,
+      tags$hr()
+    ),
+    mainPanel(
+      tags$h2("Boston Airbnb Listings"),
+      leafletOutput(outputId = "bos_map")
+    )
+  )
+)
 
 ##### Conclusion ##############################################################
 
