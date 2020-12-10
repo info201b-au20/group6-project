@@ -16,13 +16,22 @@ intro <- tabPanel(
     h1("Statistical Data on Airbnb Listings in Different Cities"),
     img(src = "https://digital.hbs.edu/platform-digit/wp-content/uploads/sites/2/2020/04/unnamed-1-512x200.png"),
     h2("Overview"),
-    p("HIIII"),
-    #state where we got the data from
-    #our problem domain at looking at how Airbnb works for its consumers and their needs to find 
-    #loging in diff cities
-    #hyperlink the website of the data 
-    #
-    h2("Questions To Be Answered"),
+    p("In this report, we will analyze Airbnb listing data in different cities
+      to answer multiple questions. The specific cities that we will focus on
+      are Boston, Chicago, and Singapore. The data on these cities are 
+      retrieved from ", a("insideairbnb.com", 
+                         href = "http://insideairbnb.com/get-the-data.html" ),
+      "which contains a collection of Airbnb datasets for various 
+      cities/locations. This data is publicly available and is sourced from 
+      Airbnb itself. Each dataset represents each city with detailed 
+      information such as host acceptance rates, neighborhood, 
+      longitude/latitude, host listings, amenities, etc. Our problem domain is 
+      to look at how Airbnb can be useful for both hosts and consumers by 
+      understanding price rates and availabilities in different cities. 
+      Comparing Airbnb listing can help consumers find the best rates, while it
+      can also help the hosts so that they can understand the average pricing
+      rates."),
+    h3("Questions To Be Answered"),
     p("????")
   )
 )
