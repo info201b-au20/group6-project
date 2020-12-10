@@ -11,7 +11,20 @@ data_chic <- read.csv("data/chicago_listings.csv")
 #### Introduction #############################################################
 
 intro <- tabPanel(
-  title = tags$header("Introduction")
+  title = tags$header("Introduction"),
+  mainPanel(
+    h1("Statistical Data on Airbnb Listings in Different Cities"),
+    img(src = "https://digital.hbs.edu/platform-digit/wp-content/uploads/sites/2/2020/04/unnamed-1-512x200.png"),
+    h2("Overview"),
+    p("HIIII"),
+    #state where we got the data from
+    #our problem domain at looking at how Airbnb works for its consumers and their needs to find 
+    #loging in diff cities
+    #hyperlink the website of the data 
+    #
+    h2("Questions To Be Answered"),
+    p("????")
+  )
 )
 
 
