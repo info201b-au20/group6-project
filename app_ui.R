@@ -32,8 +32,16 @@ intro <- tabPanel(
       Comparing Airbnb listing can help consumers find the best rates, while it
       can also help the hosts so that they can understand the average pricing
       rates."),
-    h3("Questions To Be Answered"),
-    p("????")
+    h3("Questions To Be Answered for Boston, Singapore, and Chicago"),
+    p("1. What are the different prices for a room based on the type of room
+      such as a whole house, private room, shared room, or hotel rooms?"),
+    p("2. What types of rooms are available in Singapore?"),
+    p("3. Which neighborhoods have more listings available?"),
+    p("4. What are the minimum and maximum listing price per night?"),
+    p("5. What is the maximum guest capacity"),
+    p("6. What is the availability of each room type in different 
+      neighborhoods?"),
+    p("7. What listings are available based on review rating scores?")
   )
 )
 
