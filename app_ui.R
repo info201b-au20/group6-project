@@ -15,23 +15,27 @@ intro <- tabPanel(
   title = tags$header("Introduction"),
   mainPanel(
     h1("Statistical Data on Airbnb Listings in Different Cities"),
-    img(src = "https://digital.hbs.edu/platform-digit/wp-content/uploads/sites/2/2020/04/unnamed-1-512x200.png"),
+    img(src = paste0("https://digital.hbs.edu/platform-digit/wp-content/",
+    "uploads/sites/2/2020/04/unnamed-1-512x200.png")),
     h2("Overview"),
-    p("In this report, we will analyze Airbnb listing data in different cities
+    p(
+      "In this report, we will analyze Airbnb listing data in different cities
       to answer multiple questions. The specific cities that we will focus on
-      are Boston, Chicago, and Singapore. The data on these cities are 
-      retrieved from ", a("insideairbnb.com", 
-                         href = "http://insideairbnb.com/get-the-data.html" ),
-      "which contains a collection of Airbnb datasets for various 
-      cities/locations. This data is publicly available and is sourced from 
-      Airbnb itself. Each dataset represents each city with detailed 
-      information such as host acceptance rates, neighborhood, 
-      longitude/latitude, host listings, amenities, etc. Our problem domain is 
-      to look at how Airbnb can be useful for both hosts and consumers by 
-      understanding price rates and availabilities in different cities. 
+      are Boston, Chicago, and Singapore. The data on these cities are
+      retrieved from ", a("insideairbnb.com",
+        href = "http://insideairbnb.com/get-the-data.html"
+        ),
+      "which contains a collection of Airbnb datasets for various
+      cities/locations. This data is publicly available and is sourced from
+      Airbnb itself. Each dataset represents each city with detailed
+      information such as host acceptance rates, neighborhood,
+      longitude/latitude, host listings, amenities, etc. Our problem domain is
+      to look at how Airbnb can be useful for both hosts and consumers by
+      understanding price rates and availabilities in different cities.
       Comparing Airbnb listing can help consumers find the best rates, while it
       can also help the hosts so that they can understand the average pricing
-      rates."),
+      rates."
+    ),
     h3("Questions To Be Answered for Boston, Singapore, and Chicago"),
     p("1. What are the different prices for a room based on the type of room
       such as a whole house, private room, shared room, or hotel rooms?"),
@@ -39,7 +43,7 @@ intro <- tabPanel(
     p("3. Which neighborhoods have more listings available?"),
     p("4. What are the minimum and maximum listing price per night?"),
     p("5. What is the maximum guest capacity"),
-    p("6. What is the availability of each room type in different 
+    p("6. What is the availability of each room type in different
       neighborhoods?"),
     p("7. What listings are available based on review rating scores?")
   )
@@ -114,13 +118,15 @@ page_one <- tabPanel(
       tags$hr(),
       slider_price,
       fluidRow(
-        column(7,
-               change_max_range
+        column(
+          7,
+          change_max_range
         ),
-        column(5,
-               br(),
-               br(),
-               actionButton("button", "change")
+        column(
+          5,
+          br(),
+          br(),
+          actionButton("button", "change")
         ),
       ),
       tags$hr(),
@@ -133,8 +139,10 @@ page_one <- tabPanel(
     mainPanel(
       HTML("<center><h3>Singapore Airbnb Listings (26 October, 2020)
            </h3></center>"),
-      tags$style(type = "text/css",
-                 "#m_sing {height: calc(100vh - 150px) !important;}"),
+      tags$style(
+        type = "text/css",
+        "#m_sing {height: calc(100vh - 150px) !important;}"
+      ),
       leafletOutput("m_sing")
     )
   )
@@ -178,7 +186,7 @@ slider_range_accommod <- sliderInput(
   label = "Number of People Accommodating",
   min = 1,
   max = max(data_chic$accommodates),
-  value = c(1,8),
+  value = c(1, 8),
   step = 1,
   width = "80%"
 )
@@ -242,12 +250,12 @@ accommodation_size <- textInput(
 )
 
 # slider for neighborhood filter
-sort_neighbourhood <- data_bos %>% 
-  group_by(neighbourhood_cleansed) %>% 
-  summarise(num_listings = n()) %>% 
+sort_neighbourhood <- data_bos %>%
+  group_by(neighbourhood_cleansed) %>%
+  summarise(num_listings = n()) %>%
   arrange(desc(num_listings))
-  
-  
+
+
 choose_neighbourhood <- selectInput(
   inputId = "neighbourhood",
   label = "Neigborhood",
@@ -271,7 +279,7 @@ superhost_checkbox <- checkboxInput(
   label = tags$strong("Superhost Listings Only")
 )
 
-#slider for instantly bookable filter
+# slider for instantly bookable filter
 instantly_bookable <- checkboxInput(
   inputId = "instant_book_checkbox",
   label = tags$strong("Instantly Bookable")
@@ -324,33 +332,36 @@ conclusion <- tabPanel(
     h3("Chicago Takeaways"),
     p("Chicago's scatter plot shows the relationship between Airbnb occupancy
       and price. By selecting different community and room types, users can
-      intuitively understand the price distribution of a room. Majority of Chicago
-      listings are on West Town, Near North Side and Lake View neighbourhoods,
-      and among them Lake View has the highest unit price ($9999). By comparing
-      Airbnb housing price data, both consumers and hosts can learn that the
-      overall average price range in Chicago is between $40 and $2000,
-      which can help users compare and find their optimal prices and help hosts
-      understand about market price trends."),
+      intuitively understand the price distribution of a room. Majority of
+      Chicago listings are on West Town, Near North Side and Lake View
+      neighbourhoods,and among them Lake View has the highest unit price
+      ($9999). By comparing Airbnb housing price data, both consumers and hosts
+      can learn that the overall average price range in Chicago is between
+      $40 and $2000, which can help users compare and find their optimal prices
+      and help hosts understand about market price trends."),
     # takeaways for Boston's page
     h3("Boston Takeaways"),
     p("In the Airbnb Listing distribution map in Boston, we can know that the
-      the most common housing types in downtown area is entire house and apartment;
-      whereas in other areas, hosts offer more private rooms. At the same time, we
-      could know that the Boston housing price distribution is around $50-$450."),
+      the most common housing types in downtown area is entire house and
+      apartment; whereas in other areas, hosts offer more private rooms. At the
+      same time, we could know that the Boston housing price distribution is
+      around $50-$450."),
     # conclusion part
     h3("More..."),
     p("This project provides an interactive page for users (both housing hosts
-      and consumers) to analyze and compare housing data in a given area in order
-      to understand the market price distribution and trend of housing sources,
-      so as to make their reasonable choices. However, under current pandemic,
-      we should consciously maintain a safe distance between others, abide by
-      and actively cooperate with the regional epidemic prevention policy, and
-      strive to return to normal life as soon as possible. During the vacation
-      trip, don't forget to..."),
-    img(src = "https://thumbs.dreamstime.com/b/coronavirus-disease-public
+      and consumers) to analyze and compare housing data in a given area in
+      order to understand the market price distribution and trend of housing
+      sources,so as to make their reasonable choices. However, under current
+      pandemic, we should consciously maintain a safe distance between others,
+      abide by and actively cooperate with the regional epidemic prevention
+      policy, and strive to return to normal life as soon as possible. During
+      the vacation trip, don't forget to..."),
+    img(
+      src = "https://thumbs.dreamstime.com/b/coronavirus-disease-public
         -awareness-woman-man-wearing-protective-surgical-masks-holding-stay-safe
         -healthy-signboards-vector-177404219.jpg",
-        height = "50%", width = "50%", align = "right"),
+      height = "50%", width = "50%", align = "right"
+    ),
   )
 )
 
