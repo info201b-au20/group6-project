@@ -38,15 +38,15 @@ server <- function(input, output, session) {
     # Dynamic user filtering
     plot_data <- data_sing %>%
       filter(price >= input$price_slider[1] &
-        price <= input$price_slider[2]) %>%
+               price <= input$price_slider[2]) %>%
       filter(accommodates >= input$accom_slider[1] &
-        accommodates <= input$accom_slider[2]) %>%
-      filter(if (input$checkbox == TRUE)
-        host_is_superhost == TRUE
-        else id == id) %>%
-      filter(if (input$select == "All")
-        id == id
-        else neighbourhood_cleansed == input$select)
+               accommodates <= input$accom_slider[2]) %>%
+      filter(ifelse(input$checkbox == TRUE,
+        host_is_superhost == TRUE,
+        id == id)) %>%
+      filter(ifelse(input$select == "All",
+        id == id,
+        neighbourhood_cleansed == input$select))
 
     # Get the count of filtered listings
     filter_count <- nrow(plot_data)
@@ -114,7 +114,7 @@ server <- function(input, output, session) {
         lng = ~longitude,
         stroke = FALSE,
         popup = ~popup_content,
-        color = ~ palette_fn(room_type),
+        color = ~palette_fn(room_type),
         radius = 20,
         fillOpacity = 0.5
       ) %>%
@@ -168,61 +168,66 @@ server <- function(input, output, session) {
       scale_y_continuous(
         limits = c(input$price_range[1], input$price_range[2])
       ) +
-      scale_color_gradient2(low = "blue", mid = "white", high = "red")
-    labs(
-      x = "Number of People Accommodating",
-      y = "Price ($USD per night)",
-      title = title
-    )
+      scale_color_gradient2(low = "blue", mid = "white", high = "red") +
+      labs(
+        x = "Number of People Accommodating",
+        y = "Price ($USD per night)",
+        title = title
+      )
 
     ggplotly(scatter_plot)
   })
 
 
   ##### Interactive Page Three ################################################
-  
+
   # cleanse data
   data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
   data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
   data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
-  
-  #color palette
-  palette_fn <- colorFactor(palette = "Set1", domain = data_bos$room_type)
- 
-  output$bos_map <- renderLeaflet({  
+
+  # color palette
+  palette_fn_1 <- colorFactor(palette = "Set1", domain = data_bos$room_type)
+
+  output$bos_map <- renderLeaflet({
     # UI map filtering
     map_filters <- data_bos %>%
       filter(price >= input$price[1] & price <= input$price[2]) %>%
-      filter(accommodates >= input$accommodation_size) %>% 
-      filter(ifelse(input$superhost_checkbox == TRUE, 
-                    host_is_superhost == TRUE, id == id)) %>%
-      filter(ifelse(input$instant_book_checkbox == TRUE, 
-                    instant_bookable == TRUE, id == id)) %>%
-      filter(ifelse(neighbourhood_cleansed == input$neighbourhood, 
-                    id == neighbourhood_cleansed, id == id)) %>% 
-      filter(review_scores_rating >= input$review_rating) 
-  
+      filter(accommodates >= input$accommodation_size) %>%
+      filter(ifelse(input$superhost_checkbox == TRUE,
+        host_is_superhost == TRUE, id == id
+      )) %>%
+      filter(ifelse(input$instant_book_checkbox == TRUE,
+        instant_bookable == TRUE, id == id
+      )) %>%
+      filter(ifelse(neighbourhood_cleansed == input$neighbourhood,
+        id == neighbourhood_cleansed, id == id
+      )) %>%
+      filter(review_scores_rating >= input$review_rating)
+
     # interactive map
-    leaflet(data = map_filters) %>% 
+    leaflet(data = map_filters) %>%
       addProviderTiles("CartoDB.Positron") %>%
-      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>% 
+      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>%
       addCircles(
-        lat = ~latitude,   
-        lng = ~longitude, 
+        lat = ~latitude,
+        lng = ~longitude,
         label = ~paste("$", price, sep = ""),
-        color = ~palette_fn(room_type),
-        radius = 60,     
+        color = ~palette_fn_1(room_type),
+        radius = 60,
         stroke = FALSE,
         fillOpacity = .4,
-        popup = ~paste0("<b><a href='", listing_url, "'>",name, "</a></b>", 
-                        "<br/>", description)
-      ) %>% 
-    addLegend(
-      position = "bottomright",
-      title = "Listing Type",
-      pal = palette_fn, 
-      values = ~room_type, 
-      opacity = 1
-    )
+        popup = ~paste0(
+          "<b><a href='", listing_url, "'>", name, "</a></b>",
+          "<br/>", description
+        )
+      ) %>%
+      addLegend(
+        position = "bottomright",
+        title = "Listing Type",
+        pal = palette_fn_1,
+        values = ~room_type,
+        opacity = 1
+      )
   })
 }
