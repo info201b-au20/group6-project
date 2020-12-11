@@ -111,7 +111,7 @@ checkbox_superhost <- checkboxInput(
 
 # Define a layout for interactive page
 page_one <- tabPanel(
-  title = tags$header("Interactive Map"),
+  title = tags$header("Singapore Map"),
   sidebarLayout(
     sidebarPanel(
       tags$h3("Map filter options"),
@@ -137,8 +137,8 @@ page_one <- tabPanel(
       checkbox_superhost
     ),
     mainPanel(
-      HTML("<center><h3>Singapore Airbnb Listings (26 October, 2020)
-           </h3></center>"),
+      HTML("<center><h2>Singapore Airbnb Listings (26 October, 2020)
+           </h2></center>"),
       tags$style(
         type = "text/css",
         "#m_sing {height: calc(100vh - 150px) !important;}"
@@ -203,7 +203,7 @@ slider_range_price <- sliderInput(
 
 # Define a layout for interactive page
 page_two <- tabPanel(
-  title = tags$header("Scatter Plot"),
+  title = tags$header("Chicago Plot"),
   sidebarLayout(
     sidebarPanel(
       tags$h3("Filter listing options"),
@@ -255,7 +255,6 @@ sort_neighbourhood <- data_bos %>%
   summarise(num_listings = n()) %>%
   arrange(desc(num_listings))
 
-
 choose_neighbourhood <- selectInput(
   inputId = "neighbourhood",
   label = "Neigborhood",
@@ -287,7 +286,7 @@ instantly_bookable <- checkboxInput(
 
 # Define a layout for interactive page
 page_three <- tabPanel(
-  title = tags$header("Boston Listings"),
+  title = tags$header("Boston Map"),
   sidebarLayout(
     sidebarPanel(
       tags$h3("Filter Listings"),
@@ -360,7 +359,7 @@ conclusion <- tabPanel(
       src = "https://thumbs.dreamstime.com/b/coronavirus-disease-public
         -awareness-woman-man-wearing-protective-surgical-masks-holding-stay-safe
         -healthy-signboards-vector-177404219.jpg",
-      height = "50%", width = "50%", align = "right"
+      height = "50%", width = "50%"
     ),
   )
 )
@@ -368,12 +367,15 @@ conclusion <- tabPanel(
 #------------------------------------------------------------------------------
 
 # Define a ui for the application
-ui <- navbarPage(
-  windowTitle = ("Airbnb - Data Exploration"),
-  title = tags$strong("Airbnb Data Exploration"),
-  intro,
-  page_one,
-  page_two,
-  page_three,
-  conclusion
+ui <- fluidPage(
+  includeCSS("style.css"),
+  navbarPage(
+    windowTitle = ("Airbnb - Data Exploration"),
+    title = tags$strong("Airbnb Data Exploration"),
+    intro,
+    page_one,
+    page_two,
+    page_three,
+    conclusion
+  )
 )
