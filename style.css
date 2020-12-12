@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Raleway:wght@500&display=swap');
+@font-face {
+    font-family: 'Airbnb Cereal App';
+    src: url('fonts/AirbnbCerealApp-Medium.woff2') format('woff2'),
+        url('fonts/AirbnbCerealApp-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
 
 body {
     background-color: snow;
@@ -10,25 +17,25 @@ img {
 }
 
 h1 {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Airbnb Cereal App';
     color: #FF5A5F;
     text-align: center;
-    font-weight: bolder;
+    font-weight: bolder * 100;
     margin-bottom: 25px;
 }
 
 h2 {
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
+    font-family: 'Airbnb Cereal App';
+    font-weight: bolder * 10;
 }
 
 h3 {
-    font-family: 'Raleway', sans-serif;
-    font-weight: bold;
+    font-family: 'Airbnb Cereal App';
+    font-weight: bolder * 10;
 }
 
 p {
-    font-family: 'Raleway', sans-serif;
-    font-weight: normal;
-    font-size: medium;
+    font-family: 'Airbnb Cereal App';
+    font-weight: 345;
+    font-size: 125%;
 }
