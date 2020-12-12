@@ -41,12 +41,12 @@ server <- function(input, output, session) {
                price <= input$price_slider[2]) %>%
       filter(accommodates >= input$accom_slider[1] &
                accommodates <= input$accom_slider[2]) %>%
-      filter(ifelse(input$checkbox == TRUE,
-        host_is_superhost == TRUE,
-        id == id)) %>%
-      filter(ifelse(input$select == "All",
-        id == id,
-        neighbourhood_cleansed == input$select))
+      filter(if (input$checkbox == TRUE)
+        host_is_superhost == TRUE
+        else id == id) %>%
+      filter(if (input$select == "All")
+        id == id
+        else neighbourhood_cleansed == input$select)
 
     # Get the count of filtered listings
     filter_count <- nrow(plot_data)
