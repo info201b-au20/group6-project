@@ -185,49 +185,69 @@ server <- function(input, output, session) {
   data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
   data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
   data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
-
+  # arrange_neighborhoods in descending order for neighborhood dropbox menu
+  sort_neighbourhood <- data_bos %>% 
+    group_by(neighbourhood_cleansed) %>% 
+    summarise(num_listings = n()) %>% 
+    arrange(desc(num_listings))
   # color palette
-  palette_fn_1 <- colorFactor(palette = "Set1", domain = data_bos$room_type)
-
+  palette_fn <- colorFactor(palette = "Set1", domain = data_bos$room_type)
+  
+  # Boston map
   output$bos_map <- renderLeaflet({
-    # UI map filtering
-    map_filters <- data_bos %>%
+    # filters
+    map_filters <- data_bos %>% 
+      filter(if(input$Neighbourhood == "All")
+        id == id
+        else neighbourhood_cleansed==input$Neighbourhood) %>% 
       filter(price >= input$price[1] & price <= input$price[2]) %>%
-      filter(accommodates >= input$accommodation_size) %>%
-      filter(ifelse(input$superhost_checkbox == TRUE,
-        host_is_superhost == TRUE, id == id
-      )) %>%
-      filter(ifelse(input$instant_book_checkbox == TRUE,
-        instant_bookable == TRUE, id == id
-      )) %>%
-      filter(ifelse(neighbourhood_cleansed == input$neighbourhood,
-        id == neighbourhood_cleansed, id == id
-      )) %>%
-      filter(review_scores_rating >= input$review_rating)
-
-    # interactive map
-    leaflet(data = map_filters) %>%
+      filter(accommodates >= input$accommodation_size) %>% 
+      filter(review_scores_rating >= input$review_rating) %>% 
+      filter(if(input$superhost_checkbox == TRUE)
+        host_is_superhost == TRUE
+        else id == id) %>% 
+      filter(if(input$instant_book_checkbox == TRUE)
+        instant_bookable == TRUE
+        else id == id)
+    
+    # map
+    leaflet(data = map_filters) %>% 
       addProviderTiles("CartoDB.Positron") %>%
-      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>%
+      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>% 
       addCircles(
-        lat = ~latitude,
-        lng = ~longitude,
+        lat = ~latitude,   
+        lng = ~longitude, 
         label = ~paste("$", price, sep = ""),
-        color = ~palette_fn_1(room_type),
-        radius = 60,
+        color = ~palette_fn(room_type),
+        radius = 60,     
         stroke = FALSE,
         fillOpacity = .4,
-        popup = ~paste0(
-          "<b><a href='", listing_url, "'>", name, "</a></b>",
-          "<br/>", description
-        )
-      ) %>%
+        popup = ~paste0("<b><a href='", listing_url, "'>",name, "</a></b>", 
+                        "<br/>", description)
+      ) %>% 
       addLegend(
         position = "bottomright",
         title = "Listing Type",
-        pal = palette_fn_1,
-        values = ~room_type,
+        pal = palette_fn, 
+        values = ~room_type, 
         opacity = 1
       )
+  })
+  
+  # Neighborhood filtered chart
+  output$top_10_chart <- renderPlot({
+    # top 10 neighborhoods by # listings
+    top_10 <- data_bos %>%
+      group_by(neighbourhood_cleansed) %>%
+      summarize(num_listings = n()) %>%
+      top_n(n = 10, wt = num_listings) %>%
+      ggplot(mapping = aes(x = fct_reorder(neighbourhood_cleansed, num_listings), 
+                           y = num_listings, fill = neighbourhood_cleansed)) +
+      geom_col() +
+      coord_flip() +
+      theme(legend.position = "bottom") +
+      labs(title = "Top 10 neighborhoods by no. of listings",
+           x = "Neighborhood", y = "No. of listings")
+    top_10
   })
 }

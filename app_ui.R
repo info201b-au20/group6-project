@@ -226,15 +226,19 @@ page_two <- tabPanel(
 
 ##### Interactive Page Three ##################################################
 
-data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
-data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
-data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
-
+# dropdown menu for neighborhood
+neighbourhood_widget <- selectInput(
+  inputId = "Neighbourhood",
+  label = "Select Neigborhood of Interest",
+  choices = c("All", data_bos$neighbourhood_cleansed),
+  selected = "", 
+  selectize = TRUE
+)
 
 # slider for price range
-price_slider <- sliderInput(
+price_widget <- sliderInput(
   inputId = "price",
-  label = "Listing Price",
+  label = "Listing Price (not showings listings above $500)",
   min = 0,
   max = 500,
   sep = ",",
@@ -243,27 +247,15 @@ price_slider <- sliderInput(
   dragRange = TRUE
 )
 
-# slider for max accommodation
-accommodation_size <- textInput(
+# textbox for max accommodation
+accommodation_widget <- textInput(
   inputId = "accommodation_size",
-  label = tags$h6("Accommodates"),
+  label = "Accommodates",
   value = 1
 )
 
-# slider for neighborhood filter
-sort_neighbourhood <- data_bos %>%
-  group_by(neighbourhood_cleansed) %>%
-  summarise(num_listings = n()) %>%
-  arrange(desc(num_listings))
-
-choose_neighbourhood <- selectInput(
-  inputId = "neighbourhood",
-  label = "Neigborhood",
-  choices = c("All", sort_neighbourhood$neighbourhood_cleansed)
-)
-
 # slider for review ratings score
-review_rating <- sliderInput(
+rating_widget <- sliderInput(
   inputId = "review_rating",
   label = "Minimum Review Ratings Score",
   min = 50,
@@ -273,41 +265,45 @@ review_rating <- sliderInput(
   dragRange = TRUE
 )
 
-# slider for superhost filter
-superhost_checkbox <- checkboxInput(
+# checkbox for superhost filter
+superhost_widget <- checkboxInput(
   inputId = "superhost_checkbox",
-  label = tags$strong("Superhost Listings Only")
+  label = "Superhost Listings Only"
 )
 
-# slider for instantly bookable filter
-instantly_bookable <- checkboxInput(
+#checkbox for instantly bookable filter
+bookable_widget <- checkboxInput(
   inputId = "instant_book_checkbox",
-  label = tags$strong("Instantly Bookable")
+  label = "Instantly Bookable"
 )
+
 
 # Define a layout for interactive page
 page_three <- tabPanel(
-  title = tags$header("Boston Map"),
+  title = tags$header("Boston"),
   sidebarLayout(
     sidebarPanel(
-      tags$h3("Filter Listings"),
+      tags$h3("Filter Options"),
       tags$hr(),
-      price_slider,
+      price_widget,
       tags$hr(),
-      accommodation_size,
+      accommodation_widget,
       tags$hr(),
-      review_rating,
+      rating_widget,
       tags$hr(),
-      choose_neighbourhood,
+      superhost_widget,
       tags$hr(),
-      superhost_checkbox,
-      tags$hr(),
-      instantly_bookable,
-      tags$hr()
+      bookable_widget
     ),
     mainPanel(
-      tags$h2("Boston Airbnb Listings"),
-      leafletOutput(outputId = "bos_map")
+      tags$h2(a("Boston Airbnb Listings", href = "https://www.airbnb.com/s/Boston--MA--United-States/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&query=Boston%2C%20MA%2C%20United%20States&place_id=ChIJGzE9DS1l44kRoOhiASS_fHg&source=structured_search_input_header&search_type=autocomplete_click")),
+      tags$hr(),
+      neighbourhood_widget,
+      tags$hr(),
+      leafletOutput(outputId = "bos_map"),
+      tags$hr(),
+      tags$h3("Still finishing up some parts"),
+      plotOutput(outputId = "top_10_chart")
     )
   )
 )
