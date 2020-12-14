@@ -4,6 +4,7 @@ library("tidyverse")
 library("leaflet")
 library("plotly")
 library("batman")
+library("shinyWidgets")
 
 # Read data (setwd to root first)
 data_sing <- read.csv("data/singapore_listings.csv")
