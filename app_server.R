@@ -183,6 +183,7 @@ server <- function(input, output, session) {
 
   # cleanse data
   data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
+  data_bos$price<- as.numeric(data_bos$price)
   data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
   data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
   # arrange_neighborhoods in descending order for neighborhood dropbox menu
@@ -190,6 +191,13 @@ server <- function(input, output, session) {
     group_by(neighbourhood_cleansed) %>% 
     summarise(num_listings = n()) %>% 
     arrange(desc(num_listings))
+  # sort top 10 neighborhoods
+  top_neighbourhoods <- data_bos %>%
+    group_by(neighbourhood_cleansed) %>%
+    summarize(num_listings = n()) %>%  
+    top_n(n = 10, wt = num_listings) 
+  
+  ten_locations<- (top_neighbourhoods$neighbourhood_cleansed)
   # color palette
   palette_fn <- colorFactor(palette = "Set1", domain = data_bos$room_type)
   
@@ -237,17 +245,25 @@ server <- function(input, output, session) {
   # Neighborhood filtered chart
   output$top_10_chart <- renderPlot({
     # top 10 neighborhoods by # listings
-    top_10 <- data_bos %>%
-      group_by(neighbourhood_cleansed) %>%
-      summarize(num_listings = n()) %>%
-      top_n(n = 10, wt = num_listings) %>%
-      ggplot(mapping = aes(x = fct_reorder(neighbourhood_cleansed, num_listings), 
-                           y = num_listings, fill = neighbourhood_cleansed)) +
-      geom_col() +
+    top_10 <- data_bos %>% 
+      filter(neighbourhood_cleansed %in% ten_locations) %>% 
+      ggplot(mapping = aes(x = fct_infreq(neighbourhood_cleansed), 
+                             fill = room_type)) +
+        geom_bar() +
       coord_flip() +
+      labs(title = "No. of listings by Neighborhood",
+           x = "Neighborhood", y = "No. of listings") +
       theme(legend.position = "bottom") +
-      labs(title = "Top 10 neighborhoods by no. of listings",
-           x = "Neighborhood", y = "No. of listings")
+    theme_classic()
     top_10
+  })
+  
+  # Room type chart
+  output$price_chart <- renderPlot({
+    ggplot(data = data_bos) +
+      geom_violin(mapping = aes(x = room_type, y = price, fill = room_type)) +
+      scale_y_log10() +
+      theme_linedraw()
+    
   })
 }

@@ -235,10 +235,19 @@ neighbourhood_widget <- selectInput(
   selectize = TRUE
 )
 
+chart_widget <- radioButtons(
+  inputId = "pick_chart",
+  label = "Select a Chart to View",
+  choiceNames = list("neighborhood chart",
+  "room type chart"),
+  choiceValues = list(plotOutput(outputId = "top_10_chart"),
+                      plotOutput(outputId = "price_chart"))
+)
+
 # slider for price range
 price_widget <- sliderInput(
   inputId = "price",
-  label = "Listing Price (not showings listings above $500)",
+  label = "Listing Price",
   min = 0,
   max = 500,
   sep = ",",
@@ -280,7 +289,7 @@ bookable_widget <- checkboxInput(
 
 # Define a layout for interactive page
 page_three <- tabPanel(
-  title = tags$header("Boston"),
+  title = tags$header("Boston Listings"),
   sidebarLayout(
     sidebarPanel(
       tags$h3("Filter Options"),
@@ -297,12 +306,13 @@ page_three <- tabPanel(
     ),
     mainPanel(
       tags$h2(a("Boston Airbnb Listings", href = "https://www.airbnb.com/s/Boston--MA--United-States/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&query=Boston%2C%20MA%2C%20United%20States&place_id=ChIJGzE9DS1l44kRoOhiASS_fHg&source=structured_search_input_header&search_type=autocomplete_click")),
+      tags$h6("Listings over $500 not displayed"),
       tags$hr(),
       neighbourhood_widget,
       tags$hr(),
       leafletOutput(outputId = "bos_map"),
       tags$hr(),
-      tags$h3("Still finishing up some parts"),
+      chart_widget,
       plotOutput(outputId = "top_10_chart")
     )
   )
