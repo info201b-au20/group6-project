@@ -39,15 +39,19 @@ server <- function(input, output, session) {
     # Dynamic user filtering
     plot_data <- data_sing %>%
       filter(price >= input$price_slider[1] &
-               price <= input$price_slider[2]) %>%
+        price <= input$price_slider[2]) %>%
       filter(accommodates >= input$accom_slider[1] &
-               accommodates <= input$accom_slider[2]) %>%
-      filter(if (input$checkbox == TRUE)
+        accommodates <= input$accom_slider[2]) %>%
+      filter(if (input$checkbox == TRUE) {
         host_is_superhost == TRUE
-        else id == id) %>%
-      filter(if (input$select == "All")
+      } else {
         id == id
-        else neighbourhood_cleansed == input$select)
+      }) %>%
+      filter(if (input$select == "All") {
+        id == id
+      } else {
+        neighbourhood_cleansed == input$select
+      })
 
     # Get the count of filtered listings
     filter_count <- nrow(plot_data)
@@ -115,7 +119,7 @@ server <- function(input, output, session) {
         lng = ~longitude,
         stroke = FALSE,
         popup = ~popup_content,
-        color = ~palette_fn(room_type),
+        color = ~ palette_fn(room_type),
         radius = 20,
         fillOpacity = 0.5
       ) %>%
@@ -184,91 +188,102 @@ server <- function(input, output, session) {
 
   # cleanse data
   data_bos$price <- as.numeric(gsub("[$,]", "", data_bos$price))
-  data_bos$price<- as.numeric(data_bos$price)
+  data_bos$price <- as.numeric(data_bos$price)
   data_bos$host_is_superhost <- to_logical(data_bos$host_is_superhost)
   data_bos$instant_bookable <- to_logical(data_bos$instant_bookable)
   # arrange_neighborhoods in descending order for neighborhood dropbox menu
-  sort_neighbourhood <- data_bos %>% 
-    group_by(neighbourhood_cleansed) %>% 
-    summarise(num_listings = n()) %>% 
+  sort_neighbourhood <- data_bos %>%
+    group_by(neighbourhood_cleansed) %>%
+    summarise(num_listings = n()) %>%
     arrange(desc(num_listings))
   # sort top 10 neighborhoods
   top_neighbourhoods <- data_bos %>%
     group_by(neighbourhood_cleansed) %>%
-    summarize(num_listings = n()) %>%  
-    top_n(n = 10, wt = num_listings) 
-  
-  ten_locations<- (top_neighbourhoods$neighbourhood_cleansed)
+    summarize(num_listings = n()) %>%
+    top_n(n = 10, wt = num_listings)
+
+  ten_locations <- (top_neighbourhoods$neighbourhood_cleansed)
   # color palette
   palette_fn <- colorFactor(palette = "Set1", domain = data_bos$room_type)
-  
+
   # Boston map
   output$bos_map <- renderLeaflet({
     # filters
-    map_filters <- data_bos %>% 
-      filter(if(input$Neighbourhood == "All")
+    map_filters <- data_bos %>%
+      filter(if (input$Neighbourhood == "All") {
         id == id
-        else neighbourhood_cleansed==input$Neighbourhood) %>% 
+      } else {
+        neighbourhood_cleansed == input$Neighbourhood
+      }) %>%
       filter(price >= input$price[1] & price <= input$price[2]) %>%
-      filter(accommodates >= input$accommodation_size) %>% 
-      filter(review_scores_rating >= input$review_rating) %>% 
-      filter(if(input$superhost_checkbox == TRUE)
+      filter(accommodates >= input$accommodation_size) %>%
+      filter(review_scores_rating >= input$review_rating) %>%
+      filter(if (input$superhost_checkbox == TRUE) {
         host_is_superhost == TRUE
-        else id == id) %>% 
-      filter(if(input$instant_book_checkbox == TRUE)
+      } else {
+        id == id
+      }) %>%
+      filter(if (input$instant_book_checkbox == TRUE) {
         instant_bookable == TRUE
-        else id == id)
-    
+      } else {
+        id == id
+      })
+
     # map
-    leaflet(data = map_filters) %>% 
+    leaflet(data = map_filters) %>%
       addProviderTiles("CartoDB.Positron") %>%
-      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>% 
+      setView(lng = -71.067083, lat = 42.343145, zoom = 12) %>%
       addCircles(
-        lat = ~latitude,   
-        lng = ~longitude, 
-        label = ~paste("$", price, sep = ""),
-        color = ~palette_fn(room_type),
-        radius = 60,     
+        lat = ~latitude,
+        lng = ~longitude,
+        label = ~ paste("$", price, sep = ""),
+        color = ~ palette_fn(room_type),
+        radius = 60,
         stroke = FALSE,
         fillOpacity = .4,
-        popup = ~paste0("<b><a href='", listing_url, "'>",name, "</a></b>", 
-                        "<br/>", description)
-      ) %>% 
+        popup = ~ paste0(
+          "<b><a href='", listing_url, "'>", name, "</a></b>",
+          "<br/>", description
+        )
+      ) %>%
       addLegend(
         position = "bottomright",
         title = "Listing Type",
-        pal = palette_fn, 
-        values = ~room_type, 
+        pal = palette_fn,
+        values = ~room_type,
         opacity = 1
       )
   })
-  
+
   # Neighborhood filtered chart
   output$top_10_chart <- renderPlot({
     # top 10 neighborhoods by # listings
-    top_10 <- data_bos %>% 
-      filter(neighbourhood_cleansed %in% ten_locations) %>% 
-      ggplot(mapping = aes(x = fct_infreq(neighbourhood_cleansed), 
-                             fill = room_type)) +
-        geom_bar() +
+    top_10 <- data_bos %>%
+      filter(neighbourhood_cleansed %in% ten_locations) %>%
+      ggplot(mapping = aes(
+        x = fct_infreq(neighbourhood_cleansed),
+        fill = room_type
+      )) +
+      geom_bar() +
       coord_flip() +
-      labs(title = "Most Popular Neighborhoods",
-           x = "Neighborhood", y = "No. of listings") +
+      labs(
+        title = "",
+        x = "Neighborhood", y = "No. of listings"
+      ) +
+      scale_fill_discrete(name = "Room Type") +
       theme(legend.position = "bottom") +
-    theme_classic()
+      theme_classic()
     top_10
   })
-  
+
   # Room type chart
   output$price_chart <- renderPlot({
     ggplot(data = data_bos) +
       geom_violin(mapping = aes(x = room_type, y = price, fill = room_type)) +
       scale_y_log10() +
-      labs(xlab = "Accommodation Type") +
-      xlab("Accommodation Type") +
+      xlab("Room Type") +
       ylab("Price") +
-      scale_fill_discrete(name = "Accommodation Type") +
+      scale_fill_discrete(name = "Room Type") +
       theme_light()
-    
   })
 }

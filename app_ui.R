@@ -232,20 +232,9 @@ neighbourhood_widget <- selectInput(
   inputId = "Neighbourhood",
   label = "Select Neigborhood of Interest",
   choices = c("All", data_bos$neighbourhood_cleansed),
-  selected = "", 
+  selected = "",
   selectize = TRUE
 )
-
-chart_widget <- materialSwitch(
-  inputId = "switch1",
-  label = "Select a Chart to View",
-)
-
-test_switch <- materialSwitch(
-  inputId = "switch3", 
-  label = "Night mode",
-)                 
-
 
 # slider for price range
 price_widget <- sliderInput(
@@ -281,15 +270,15 @@ rating_widget <- sliderInput(
 superhost_widget <- prettyCheckbox(
   inputId = "superhost_checkbox",
   label = "Superhost Listings Only",
-  shape = "round", 
+  shape = "round",
   outline = TRUE
 )
 
-#checkbox for instantly bookable filter
+# checkbox for instantly bookable filter
 bookable_widget <- prettyCheckbox(
   inputId = "instant_book_checkbox",
   label = "Instantly Bookable",
-  shape = "round", 
+  shape = "round",
   outline = TRUE
 )
 
@@ -309,18 +298,27 @@ page_three <- tabPanel(
       tags$hr(),
       superhost_widget,
       tags$hr(),
-      bookable_widget
+      bookable_widget,
+      tags$hr(),
+      img(
+        src = paste("https://cdn.wallpapersafari.com/42/43/sQ8aMj.jpg"),
+        height = "100%", width = "100%", align = "bottom left"
+      )
     ),
     mainPanel(
-      tags$h2(a("Boston Airbnb Listings", href = "https://www.airbnb.com/s/Boston--MA--United-States/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&query=Boston%2C%20MA%2C%20United%20States&place_id=ChIJGzE9DS1l44kRoOhiASS_fHg&source=structured_search_input_header&search_type=autocomplete_click")),
+      tags$h2(a("Boston Airbnb Listings",
+                href = "https://www.airbnb.com/s/Boston--MA--United-States/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&query=Boston%2C%20MA%2C%20United%20States&place_id=ChIJGzE9DS1l44kRoOhiASS_fHg&source=structured_search_input_header&search_type=autocomplete_click")),
       tags$h6("Listings over $500 not displayed"),
       tags$hr(),
       neighbourhood_widget,
       tags$hr(),
       leafletOutput(outputId = "bos_map"),
       tags$hr(),
-      chart_widget,
+      tags$h3("Price per Accommodation Type"),
       plotOutput(outputId = "price_chart"),
+      tags$hr(),
+      tags$h3("Most Popular Neighborhoods"),
+      plotOutput(outputId = "top_10_chart")
     )
   )
 )
