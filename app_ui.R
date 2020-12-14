@@ -235,14 +235,16 @@ neighbourhood_widget <- selectInput(
   selectize = TRUE
 )
 
-chart_widget <- radioButtons(
-  inputId = "pick_chart",
+chart_widget <- materialSwitch(
+  inputId = "switch1",
   label = "Select a Chart to View",
-  choiceNames = list("neighborhood chart",
-  "room type chart"),
-  choiceValues = list(plotOutput(outputId = "top_10_chart"),
-                      plotOutput(outputId = "price_chart"))
 )
+
+test_switch <- materialSwitch(
+  inputId = "switch3", 
+  label = "Night mode",
+)                 
+
 
 # slider for price range
 price_widget <- sliderInput(
@@ -275,15 +277,19 @@ rating_widget <- sliderInput(
 )
 
 # checkbox for superhost filter
-superhost_widget <- checkboxInput(
+superhost_widget <- prettyCheckbox(
   inputId = "superhost_checkbox",
-  label = "Superhost Listings Only"
+  label = "Superhost Listings Only",
+  shape = "round", 
+  outline = TRUE
 )
 
 #checkbox for instantly bookable filter
-bookable_widget <- checkboxInput(
+bookable_widget <- prettyCheckbox(
   inputId = "instant_book_checkbox",
-  label = "Instantly Bookable"
+  label = "Instantly Bookable",
+  shape = "round", 
+  outline = TRUE
 )
 
 
@@ -313,7 +319,7 @@ page_three <- tabPanel(
       leafletOutput(outputId = "bos_map"),
       tags$hr(),
       chart_widget,
-      plotOutput(outputId = "top_10_chart")
+      plotOutput(outputId = "price_chart"),
     )
   )
 )

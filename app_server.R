@@ -6,6 +6,7 @@ library("RColorBrewer")
 library("batman")
 library("ggplot2")
 library("plotly")
+library("shinyWidgets")
 
 # Read data (set wdir to root)
 data_sing <- read.csv("data/singapore_listings.csv")
@@ -251,7 +252,7 @@ server <- function(input, output, session) {
                              fill = room_type)) +
         geom_bar() +
       coord_flip() +
-      labs(title = "No. of listings by Neighborhood",
+      labs(title = "Most Popular Neighborhoods",
            x = "Neighborhood", y = "No. of listings") +
       theme(legend.position = "bottom") +
     theme_classic()
@@ -263,7 +264,11 @@ server <- function(input, output, session) {
     ggplot(data = data_bos) +
       geom_violin(mapping = aes(x = room_type, y = price, fill = room_type)) +
       scale_y_log10() +
-      theme_linedraw()
+      labs(xlab = "Accommodation Type") +
+      xlab("Accommodation Type") +
+      ylab("Price") +
+      scale_fill_discrete(name = "Accommodation Type") +
+      theme_light()
     
   })
 }
